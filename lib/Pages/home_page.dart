@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:normaltodo/Utils/diaglogbox.dart';
 import 'package:normaltodo/Utils/todo_tile.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,6 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _controller = TextEditingController();
   List toDoList = [
     ["Do Code", false],
     ["Do Workout", false],
@@ -20,11 +22,21 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void SavedNewTask() {
+    setState(() {
+      toDoList.add([_controller.text, false]);
+    });
+  }
+
   void createNewTask() {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog();
+        return DiaglogBox(
+          controller: _controller,
+          onSaved: SavedNewTask,
+          onCancel: () => Navigator.of(context).pop(),
+        );
       },
     );
   }
